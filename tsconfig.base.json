@@ -16,7 +16,10 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@ngnx/api-interfaces": ["libs/api-interfaces/src/index.ts"]
+      "@ngnx/api-interfaces": ["libs/api-interfaces/src/index.ts"],
+      "@ngnx/core-data": ["libs/core-data/src/index.ts"],
+      "@ngnx/core-state": ["libs/core-state/src/index.ts"],
+      "@ngnx/material": ["libs/material/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
