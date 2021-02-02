@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreDataModule } from '@ngnx/core-data';
 import { CoreStateModule } from '@ngnx/core-state';
 import { MaterialModule } from '@ngnx/material';
+import { UiToolbarModule } from '@ngnx/ui-toolbar';
 import { StoreModule } from '@ngrx/store';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -14,9 +15,14 @@ import { WidgetDetailComponent } from './widgets/widget-detail/widget-detail.com
 import { WidgetsListComponent } from './widgets/widgets-list/widgets-list.component';
 import { WidgetsComponent } from './widgets/widgets.component';
 
-
 @NgModule({
-  declarations: [AppComponent, HomeComponent, WidgetsComponent, WidgetsListComponent, WidgetDetailComponent],
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    WidgetsComponent,
+    WidgetsListComponent,
+    WidgetDetailComponent,
+  ],
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
@@ -26,6 +32,7 @@ import { WidgetsComponent } from './widgets/widgets.component';
     HttpClientModule,
     MaterialModule,
     RoutingModule,
+    UiToolbarModule,
     StoreModule.forRoot({}, {}),
   ],
   providers: [],

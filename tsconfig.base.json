@@ -20,6 +20,7 @@
       "@ngnx/core-data": ["libs/core-data/src/index.ts"],
       "@ngnx/core-state": ["libs/core-state/src/index.ts"],
       "@ngnx/material": ["libs/material/src/index.ts"],
+      "@ngnx/ui-toolbar": ["libs/ui-toolbar/src/index.ts"],
       "@env/*": ["apps/dashboard/src/environments/*"]
     }
   },
