@@ -9,7 +9,7 @@
   </div>
   <div class="details-component">
     <ngnx-widget-detail
-      [widget]="selectedWidget"
+      [widget]="selectedWidget$ | async"
       (saved)="saveWidget($event)"
       (cancelled)="resetForm()"
     >
