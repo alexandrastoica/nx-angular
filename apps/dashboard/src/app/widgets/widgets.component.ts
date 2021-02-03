@@ -26,7 +26,7 @@ export class WidgetsComponent implements OnInit {
 
   reset() {
     this.loadWidgets();
-    this.selectWidget(null);
+    this.selectWidget(emptyWidget);
   }
 
   resetForm() {
@@ -50,24 +50,14 @@ export class WidgetsComponent implements OnInit {
   }
 
   createWidget(widget: Widget) {
-    const newWidget = Object.assign({}, widget, { id: this.getRandomID() });
-    // this.widgets$ = [...this.widgets$, newWidget];
-    this.resetForm();
+    this.widgetsService.create(widget).subscribe((result) => this.reset());
   }
 
   updateWidget(widget: Widget) {
-    // this.widgets = this.widgets.map((w) => {
-    //   return widget.id === w.id ? widget : w;
-    // });
-    this.resetForm();
+    this.widgetsService.update(widget).subscribe((result) => this.reset());
   }
 
   deleteWidget(widget: Widget) {
-    // this.widgets = this.widgets.filter((w) => widget.id !== w.id);
-    this.resetForm();
-  }
-
-  private getRandomID() {
-    return Math.random().toString(36).substring(7);
+    this.widgetsService.delete(widget).subscribe((result) => this.reset());
   }
 }
