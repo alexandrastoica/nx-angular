@@ -1,25 +1,31 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { Route, RouterModule } from '@angular/router';
-import { CoreDataModule } from '@ngnx/core-data';
 import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { RootStoreConfig, StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+
+import { reducers } from '.';
 import { WidgetsEffects } from './widgets/widgets.effects';
 import { WidgetsFacade } from './widgets/widgets.facade';
-import * as fromWidgets from './widgets/widgets.reducer';
 
-export const coreStateRoutes: Route[] = [];
+const STORE_NAME = 'fem-store';
+const storeConfig: RootStoreConfig<any, any> = {
+  runtimeChecks: {
+    strictActionImmutability: true,
+    strictActionSerializability: true,
+    strictStateImmutability: true,
+    strictStateSerializability: true,
+  },
+};
 
 @NgModule({
   imports: [
     CommonModule,
-    CoreDataModule,
-    RouterModule,
-    // StoreModule.forFeature(
-    //   fromWidgets.WIDGETS_FEATURE_KEY,
-    //   fromWidgets.reducer
-    // ),
-    // EffectsModule.forFeature([WidgetsEffects]),
+    StoreModule.forRoot(reducers, storeConfig),
+    EffectsModule.forRoot([WidgetsEffects]),
+    StoreDevtoolsModule.instrument({ maxAge: 25, name: STORE_NAME }),
+    StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
   ],
   providers: [WidgetsFacade],
 })

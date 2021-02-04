@@ -1,27 +1,60 @@
 import { Injectable } from '@angular/core';
 import { Widget } from '@ngnx/api-interfaces';
-import { WidgetsService } from '@ngnx/core-data';
-import { Subject } from 'rxjs';
+import { Action, ActionsSubject, select, Store } from '@ngrx/store';
+import { filter } from 'rxjs/operators';
+import * as WidgetsActions from './widgets.actions';
+import * as WidgetsSelectors from './widgets.selectors';
 
 @Injectable()
 export class WidgetsFacade {
-  private allWidgets = new Subject<Widget[]>();
-  private selectedWidget = new Subject<Widget>();
-  private mutations = new Subject();
+  loaded$ = this.store.pipe(select(WidgetsSelectors.getWidgetsLoaded));
+  allWidgets$ = this.store.pipe(select(WidgetsSelectors.getAllWidgets));
+  selectedWidget$ = this.store.pipe(select(WidgetsSelectors.getSelectedWidget));
 
-  allWidgets$ = this.allWidgets.asObservable();
-  selectedWidget$ = this.selectedWidget.asObservable();
-  mutations$ = this.mutations.asObservable();
+  mutations$ = this.actions$.pipe(
+    filter(
+      (action: Action) =>
+        action.type === WidgetsActions.createWidget({} as any).type ||
+        action.type === WidgetsActions.updateWidget({} as any).type ||
+        action.type === WidgetsActions.deleteWidget({} as any).type
+    )
+  );
 
-  constructor(private widgetService: WidgetsService) {}
+  constructor(private store: Store, private actions$: ActionsSubject) {}
 
-  loadWidgets() {
-    this.widgetService
-      .all()
-      .subscribe((widgets: Widget[]) => this.allWidgets.next(widgets));
+  selectWidget(selectedId: string) {
+    this.dispatch(WidgetsActions.selectWidget({ selectedId }));
   }
 
-  selectWidget(widget: Widget) {
-    this.selectedWidget.next(widget);
+  loadWidgets() {
+    this.dispatch(WidgetsActions.loadWidgets());
+  }
+
+  loadWidget(widgetId: string) {
+    this.dispatch(WidgetsActions.loadWidget({ widgetId }));
+  }
+
+  saveWidget(widget: Widget) {
+    if (widget.id) {
+      this.updateWidget(widget);
+    } else {
+      this.createWidget(widget);
+    }
+  }
+
+  createWidget(widget: Widget) {
+    this.dispatch(WidgetsActions.createWidget({ widget }));
+  }
+
+  updateWidget(widget: Widget) {
+    this.dispatch(WidgetsActions.updateWidget({ widget }));
+  }
+
+  deleteWidget(widget: Widget) {
+    this.dispatch(WidgetsActions.deleteWidget({ widget }));
+  }
+
+  dispatch(action: Action) {
+    this.store.dispatch(action);
   }
 }
