@@ -1,23 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { Widget } from '@ngnx/api-interfaces';
-import { WidgetsService } from '@ngnx/core-data';
+import { WidgetsFacade } from '@ngnx/core-state';
 import { Observable } from 'rxjs';
 
 @Component({
   selector: 'ngnx-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  widgets$: Observable<Widget[]>;
+  allWidgets$: Observable<Widget[]> = this.widgetsFacade.allWidgets$;
 
-  constructor(private widgetsService: WidgetsService) {}
+  constructor(private widgetsFacade: WidgetsFacade) {}
 
   ngOnInit() {
     this.loadWidgets();
   }
 
   loadWidgets() {
-    this.widgets$ = this.widgetsService.all();
+    this.widgetsFacade.loadWidgets();
   }
 }

@@ -7,7 +7,6 @@ import { CoreDataModule } from '@ngnx/core-data';
 import { CoreStateModule } from '@ngnx/core-state';
 import { MaterialModule } from '@ngnx/material';
 import { UiToolbarModule } from '@ngnx/ui-toolbar';
-import { StoreModule } from '@ngrx/store';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { RoutingModule } from './routing.module';
@@ -33,7 +32,6 @@ import { WidgetsComponent } from './widgets/widgets.component';
     MaterialModule,
     RoutingModule,
     UiToolbarModule,
-    StoreModule.forRoot({}, {}),
   ],
   providers: [],
   bootstrap: [AppComponent],
